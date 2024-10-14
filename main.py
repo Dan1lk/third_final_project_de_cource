@@ -64,7 +64,7 @@ def pyspark_job():
     print(f'Общее количество строк после удаления дубликатов в sales_df : {sales_df.count()}')
 
     # Сохраняем очищенные данные в формат csv:
-    sales_df.write.options(mode='overwrite', header='True').csv('/opt/files/clean_sales.csv')
+    sales_df.write.mode('overwrite').options(header='True').csv('/opt/files/clean_sales.csv')
 
 
 def conn_and_load_postgresql():
