@@ -3,6 +3,9 @@ USER root
 RUN apt-get update \
   && apt install wget \
   && wget https://jdbc.postgresql.org/download/postgresql-42.7.3.jar -P /opt/spark/jars/ \
+  && wget https://github.com/ClickHouse/clickhouse-java/releases/download/v0.7.0/clickhouse-jdbc-0.7.0.jar -P /opt/spark/jars/ \
+  && mkdir /opt/files/ \
+  && chmod a+w /opt/files/ \
   && apt install -y default-jdk \
   && apt-get autoremove -yqq --purge \
   && apt-get clean \
