@@ -102,36 +102,30 @@ def conn_and_extract_postgresql():
         .getOrCreate()
 
     # Читаем clean_sales_df из postgresql
-    try:
-        sales_df = spark.read \
-            .format("jdbc") \
-            .option("url", "jdbc:postgresql://host.docker.internal:5432/test") \
-            .option("dbtable", "clean_sales") \
-            .option("user", "user") \
-            .option("password", "password") \
-            .option("driver", "org.postgresql.Driver") \
-            .load()
 
-        # Смотрим на данные:
-        sales_df.show()
-
-        # Регистрируем временную таблицу:
-        sales_df.createOrReplaceGlobalTempView('sales_df')
-
-    except Exception as e:
-        print(f"Error connecting to PostgreSQL: {e}")
+    sales_df = spark.read \
+        .format("jdbc") \
+        .option("url", "jdbc:postgresql://host.docker.internal:5432/test") \
+        .option("dbtable", "clean_sales") \
+        .option("user", "user") \
+        .option("password", "password") \
+        .option("driver", "org.postgresql.Driver") \
+        .load()
     print("Данные прочитаны")
+
+    # Смотрим на данные:
+    sales_df.show()
+
+    # Регистрируем временную таблицу:
+    sales_df.createOrReplaceGlobalTempView('sales_df')
 
     # Подсчитаем общее количество продаж и сумму продаж для каждого региона и каждого продукта.
     spark.sql("""
-                SELECT region, count(*) as count_sales, sum(sale_amount) as sum_sale_amount
-                FROM sales_df
-                GROUP BY region
-            """).show()
-
-
-
-
+                    SELECT region, count(*) as count_sales, sum(sale_amount) as sum_sale_amount
+                    FROM sales_df
+                    GROUP BY region
+                """).show()
+    
 
 task_data_generation = PythonOperator(
     task_id='data_generation',
