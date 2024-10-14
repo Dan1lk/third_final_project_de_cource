@@ -47,7 +47,7 @@ services:
 
   postgres_user:
     image: postgres:15
-    container_name: postgres_user2
+    container_name: postgres_user3
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -60,7 +60,7 @@ services:
 
   clickhouse:
     image: yandex/clickhouse-server:latest
-    container_name: clickhouse_user2
+    container_name: clickhouse_user3
     ports:
       - "8123:8123"
       - "9000:9000"
@@ -69,7 +69,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana2
+    container_name: grafana3
     ports:
       - "3000:3000"
     volumes:
